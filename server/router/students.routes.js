@@ -1,0 +1,70 @@
+const express = require("express");
+const router = express.Router();
+const pool = require("../db");
+
+// GET ALL
+router.get("/", async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT * FROM Student");
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// GET BY ID
+router.get("/:id", async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT * FROM Student WHERE Id = ?",
+      [req.params.id]
+    );
+    if (!rows.length) return res.status(404).json({ message: "Not found" });
+    res.json(rows[0]);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// CREATE
+router.post("/", async (req, res) => {
+  try {
+    console.log("Body:", req.body); // ← додайте це
+    const { firstName, lastName, email, age } = req.body;
+    const [result] = await pool.query(
+      "INSERT INTO Student (FirstName, LastName, Email, Age) VALUES (?, ?, ?, ?)",
+      [firstName, lastName, email, age]
+    );
+    res.status(201).json({ id: result.insertId, ...req.body });
+  } catch (err) {
+    console.error("POST error:", err.message); // ← і це
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// UPDATE
+router.put("/:id", async (req, res) => {
+  try {
+    const { firstName, lastName, email, age } = req.body;
+    const [result] = await pool.query(
+      "UPDATE Student SET FirstName=?, LastName=?, Email=?, Age=? WHERE Id=?",
+      [firstName, lastName, email, age, req.params.id]
+    );
+    if (!result.affectedRows) return res.status(404).json({ message: "Not found" });
+    res.json({ id: Number(req.params.id), ...req.body });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// DELETE
+router.delete("/:id", async (req, res) => {
+  try {
+    await pool.query("DELETE FROM Student WHERE Id=?", [req.params.id]);
+    res.json({ message: "Deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+module.exports = router;
