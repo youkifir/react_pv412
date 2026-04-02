@@ -5,7 +5,7 @@ const pool = require("../db");
 // GET ALL
 router.get("/", async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM Student");
+    const [rows] = await pool.query("SELECT * FROM Students");
     res.json(rows);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM Student WHERE Id = ?",
+      "SELECT * FROM Students WHERE Id = ?",
       [req.params.id]
     );
     if (!rows.length) return res.status(404).json({ message: "Not found" });
@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
     console.log("Body:", req.body); // ← додайте це
     const { firstName, lastName, email, age } = req.body;
     const [result] = await pool.query(
-      "INSERT INTO Student (FirstName, LastName, Email, Age) VALUES (?, ?, ?, ?)",
+      "INSERT INTO Students (FirstName, LastName, Email, Age) VALUES (?, ?, ?, ?)",
       [firstName, lastName, email, age]
     );
     res.status(201).json({ id: result.insertId, ...req.body });
@@ -47,7 +47,7 @@ router.put("/:id", async (req, res) => {
   try {
     const { firstName, lastName, email, age } = req.body;
     const [result] = await pool.query(
-      "UPDATE Student SET FirstName=?, LastName=?, Email=?, Age=? WHERE Id=?",
+      "UPDATE Students SET FirstName=?, LastName=?, Email=?, Age=? WHERE Id=?",
       [firstName, lastName, email, age, req.params.id]
     );
     if (!result.affectedRows) return res.status(404).json({ message: "Not found" });
@@ -60,11 +60,12 @@ router.put("/:id", async (req, res) => {
 // DELETE
 router.delete("/:id", async (req, res) => {
   try {
-    await pool.query("DELETE FROM Student WHERE Id=?", [req.params.id]);
+    await pool.query("DELETE FROM Students WHERE Id=?", [req.params.id]);
     res.json({ message: "Deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 module.exports = router;

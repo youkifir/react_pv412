@@ -5,8 +5,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Підключення роутера
 app.use("/students", require("./router/students.routes"));
+app.use("/auth", require("./router/auth.routes"));
 
 app.listen(3001, () => {
   console.log("Server running on http://localhost:3001");
