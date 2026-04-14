@@ -11,6 +11,7 @@ function StudentForm({ onSave, studentToEdit }: Props) {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [age, setAge] = useState<number>(0);
+    const [password, setPassword] = useState("")
 
     useEffect(() => {
         if (studentToEdit) {

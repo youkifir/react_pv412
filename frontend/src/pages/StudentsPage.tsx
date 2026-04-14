@@ -7,17 +7,20 @@ import StudentList from "../components/StudentList"
 function StudentsPage() {
     const [students, setStudents] = useState<Student[]>([])
     const navigate = useNavigate()
+
     const loadStudents = async () => {
-        const promise_students = await StudentService.getAll()
-        setStudents(promise_students)
+        const data = await StudentService.getAll()
+        setStudents(data)
     }
+
     const handleDelete = async (id: number) => {
         await StudentService.delete(id)
-        loadStudents()
+        await loadStudents()
     }
+
     useEffect(() => {
         loadStudents()
-    })
+    }, [])
 
     return (
         <div className="container mt-4">

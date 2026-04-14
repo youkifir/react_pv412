@@ -62,7 +62,13 @@ function StudentFormPage() {
         e.preventDefault();
         if (!validate()) return;
 
-        const student = { firstName, lastName, email, age: Number(age) };
+        const student = {
+            firstName,
+            lastName,
+            email,
+            age: Number(age),
+            role: "student"
+        };
         if (id) {
             await StudentService.update(Number(id), student);
         } else {

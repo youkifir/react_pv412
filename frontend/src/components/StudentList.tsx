@@ -1,5 +1,5 @@
 import type { Student } from "../models/Student";
-import StudentItem from './StudentItem'
+import StudentItem from './StudentItem';
 
 interface Props {
     students: Student[]
@@ -7,8 +7,12 @@ interface Props {
 }
 
 function StudentList({ students, onDelete }: Props) {
+    const user = JSON.parse(localStorage.getItem("user") || "{}")
     return (
         <div className="container mt-4">
+            {user.firstName && (
+                <p className="text-muted">Привіт, <strong>{user.firstName}</strong>!</p>
+            )}
             <table className="table table-info">
                 <thead>
                     <tr>

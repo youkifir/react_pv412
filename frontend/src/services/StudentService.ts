@@ -10,11 +10,11 @@ export const StudentService = {
         const res = await api.get(`/students/${id}`)
         return res.data
     },
-    async create(student: Omit<Student, "id">): Promise<Student> {
+    async create(student: Omit<Student, "id" | "password" | "role">): Promise<Student> {
         const res = await api.post("/students", student)
         return res.data
     },
-    async update(id: number, student: Omit<Student, "id">): Promise<Student> {
+    async update(id: number, student: Omit<Student, "id" | "password" | "role">): Promise<Student> {
         const res = await api.put(`/students/${id}`, student)
         return res.data
     },
