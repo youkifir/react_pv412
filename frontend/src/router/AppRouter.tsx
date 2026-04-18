@@ -4,6 +4,7 @@ import StudentFormPage from "../pages/StudentFormPage"
 import LoginPage from "../components/LoginPage"
 import RegisterPage from "../components/RegisterPage"
 import ProtectedRoute from "./ProtectedRoute"
+import Profile from "../components/Profile"
 
 function AppRouter() {
     return (
@@ -13,11 +14,15 @@ function AppRouter() {
                 <Route path="/register" element={<RegisterPage />} />
 
                 <Route path="/" element={<ProtectedRoute><StudentsPage /></ProtectedRoute>} />
+                <Route path="/students" element={<ProtectedRoute><StudentsPage /></ProtectedRoute>} />
                 <Route path="/create" element={<ProtectedRoute><StudentFormPage /></ProtectedRoute>} />
                 <Route path="/edit/:id" element={<ProtectedRoute><StudentFormPage /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+                {/* <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} /> */}
             </Routes>
         </BrowserRouter>
     )
 }
 
 export default AppRouter
+

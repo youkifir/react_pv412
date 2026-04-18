@@ -1,5 +1,6 @@
 import type { Student } from "../models/Student";
 import StudentItem from './StudentItem';
+import { Link } from "react-router-dom";
 
 interface Props {
     students: Student[]
@@ -13,6 +14,7 @@ function StudentList({ students, onDelete }: Props) {
             {user.firstName && (
                 <p className="text-muted">Привіт, <strong>{user.firstName}</strong>!</p>
             )}
+            <Link className="text-muted" to="/profile">Профіль</Link>
             <table className="table table-info">
                 <thead>
                     <tr>
